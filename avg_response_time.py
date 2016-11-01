@@ -34,34 +34,36 @@ for tag in query:
 	accept_ans_ids =[]
 	for ID in file_data:
 	    if tag in file_data[ID]['tags']:
-	        if 'accepted_answer_id' in file_data[ID].keys():
+	        if 'accepted_answer_id' in file_data[ID]:
 	            record =[]
 	            ques_create_date = file_data[ID]['creation_date']
 	            quest_id = file_data[ID]['question_id']
 	            accepted_answer_id = file_data[ID]['accepted_answer_id']
 	            record.append(quest_id)
 	            record.append(accepted_answer_id)
-	            accept_ans_ids.append(accepted_answer_id)
+	            accept_ans_ids.append(str(accepted_answer_id))
 	            record.append(epoch_to_date(ques_create_date))
 	            tag_dict[quest_id] = record
-	            
+	  
+
 	with open("answers.json",'r') as ans_file:
 	    ans_file_data = {}
 	    ans_file_data = json.load(ans_file)
 	    ans_file.close()
 
-	ans_dict ={}
+	ans_dict ={}	
 	for ids in accept_ans_ids:
-	    if ids in ans_file_data.keys():
+	    if ids in ans_file_data:	    	
 	        record=[]
 	        record.append(ans_file_data[ids]['question_id'])
 	        record.append(ans_file_data[ids]['answer_id'])
 	        record.append(epoch_to_date(ans_file_data[ids]['creation_date']))
-	        ans_dict[ans_file_data[ids]['question_id']]=record
+	        ans_dict[ans_file_data[ids]['question_id']]=record	        
+
 
 	d3 = { k : tag_dict[k] + ans_dict[k] for k in tag_dict if k in ans_dict }
-	print(accept_ans_ids)
-	print(ans_file_data.keys())
+	#print(ans_dict)
+	#print()
 	days_diff = 0
 	for qus in d3:
 	    diff_time = d3[qus][5] - d3[qus][2]
@@ -71,3 +73,4 @@ for tag in query:
 		print(days_diff/len(d3))
 	else:
 		print("No Accepted answers available yet")
+
