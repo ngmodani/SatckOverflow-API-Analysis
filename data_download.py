@@ -54,7 +54,7 @@ query = query.lower()
 tag = query.split(",")
 tags = (";").join(tag)
 # My Auth Key for STACKOVERFLOW API
-key = "ZXgv0x2p)nEbVgWLoOFRdA(("
+key = "API Key"
 # prepare params for questions API
 payload_questions={}
 payload_questions["key"] = key
